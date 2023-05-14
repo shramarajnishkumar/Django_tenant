@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/reg.css' %}" rel="stylesheet">
+    <title>LogIn</title>
+    <style>
+        input 
+        {
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+        .form-group 
+        {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Montserrat';
+        }
+        h2 
+        {
+            font-family: 'Montserrat';
+            background-color: #f3f2f1;
+            padding: 20px;
+            text-align: center;
+        }
+        .signup_form 
+        {
+            width: 350px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container sign_up" style="display: flex; justify-content:center; align-items:center; height:100vh;" >
+        <div class="row justify-content-center mt-5 signup_form">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-5">
+                    <h2>LogIn</h2>
+                </div>
+            </div>
+        <div class="col-md-5">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}<br>
+            <form action={% url 'login' %} method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">UserName</label>
+                    <input type="text" name="username" class="form-control" id="username" required>
+                </div><br>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-light" style="background-color: #f78b1f; border-radius:8px; width:100%;  padding:8px 18px; border:none; font-size:16px;">Log in</button>
+                <br>
+                <p>If you don't have a account <a href={% url 'register' %}>click here</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

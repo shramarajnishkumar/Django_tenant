@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> 
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>  
+    <title>Register</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">WelCome</a>{{user.first_name.upper}}
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> 
+            <a class="nav-link active ms-3"  aria-current="page" href="#">Home</a>
+  
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'product' %}">Add Product</a>
+              </li>
+                {% if subscription %}
+                  {% if cancel_at_period_end == True %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'reactive_subscription' %}">Reactive Subscription</a>
+                    </li>
+                  {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'cancel_subscription' %}">Cancel Subscription</a>
+                    </li>
+                  {% endif %}
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'subscription' %}">Purchase Subscription</a>
+                </li>
+                {% endif %}
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav><br>
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}<br>
+
+    <div>
+      <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">product name</th>
+              <th scope="col">description</th>
+              <th scope="col">price</th>
+              <th scope="col">date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% if user.is_authenticated %}
+            {% if products %}
+              {% for product in products %} 
+              <tr>
+                <td>{{product.product_name}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.date}}</td>
+              </tr>
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+        </tbody>
+        </table>
+      </div>
+    </div>
+</body>
+</html>
